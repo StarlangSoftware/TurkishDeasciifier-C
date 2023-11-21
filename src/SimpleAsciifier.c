@@ -82,13 +82,11 @@ char *asciify_word(char* word) {
  * @return Sentence output which is asciified.
  */
 Sentence_ptr asciify_sentence(Sentence_ptr sentence) {
-    Word_ptr word, newWord;
+    char* word;
     Sentence_ptr result = create_sentence();
     for (int i = 0; i < sentence->words->size; i++) {
         word = sentence_get_word(sentence, i);
-        char* asciified = asciify_word(word->name);
-        newWord = create_word(asciified);
-        free(asciified);
+        char* newWord = asciify_word(word);
         sentence_add_word(result, newWord);
     }
     return result;

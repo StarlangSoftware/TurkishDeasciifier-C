@@ -27,7 +27,7 @@ void free_n_gram_deasciifier(N_gram_deasciifier_ptr deasciifier);
 
 Sentence_ptr n_gram_deasciify_sentence(N_gram_deasciifier_ptr deasciifier, Sentence_ptr sentence);
 
-Word_ptr check_analysis_and_set_root(N_gram_deasciifier_ptr deasciifier,
+char* check_analysis_and_set_root(N_gram_deasciifier_ptr deasciifier,
                                      Sentence_ptr sentence,
                                      int index);
 

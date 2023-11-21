@@ -137,24 +137,24 @@ Array_list_ptr candidate_list(Fsm_morphological_analyzer_ptr fsm, const char *wo
  * @return result Sentence.
  */
 Sentence_ptr deasciify_sentence(Fsm_morphological_analyzer_ptr fsm, Sentence_ptr sentence) {
-    Word_ptr word, new_word;
+    char* word, *new_word;
     int random_candidate;
     Array_list_ptr candidates;
     Sentence_ptr result = create_sentence();
     for (int i = 0; i < sentence->words->size; i++) {
         word = sentence_get_word(sentence, i);
-        Fsm_parse_list_ptr fsmParseList = morphological_analysis(fsm, word->name);
+        Fsm_parse_list_ptr fsmParseList = morphological_analysis(fsm, word);
         if (fsmParseList->fsm_parses->size == 0){
-            candidates = candidate_list(fsm, word->name);
+            candidates = candidate_list(fsm, word);
             if (candidates->size != 0) {
                 random_candidate = random() % candidates->size;
-                new_word = create_word(array_list_get(candidates, random_candidate));
+                new_word = str_copy(new_word, array_list_get(candidates, random_candidate));
             } else {
-                new_word = create_word(word->name);
+                new_word = str_copy(new_word, word);
             }
             free_array_list(candidates, free);
         } else {
-            new_word = word;
+            new_word = str_copy(new_word, word);
         }
         free_fsm_parse_list(fsmParseList);
         sentence_add_word(result, new_word);

@@ -15,7 +15,7 @@ int main(){
     s2 = deasciify_sentence(fsm, s1);
     tmp = sentence_to_string(s2);
     if (strcmp(tmp, "hakkında") != 0){
-        printf("Error: %s", tmp);
+        printf("Error: %s\n", tmp);
     }
     free_sentence(s1);
     free_sentence(s2);
@@ -24,7 +24,7 @@ int main(){
     s2 = deasciify_sentence(fsm, s1);
     tmp = sentence_to_string(s2);
     if (strcmp(tmp, "küçük") != 0){
-        printf("Error: %s", tmp);
+        printf("Error: %s\n", tmp);
     }
     free_sentence(s1);
     free_sentence(s2);
@@ -33,7 +33,7 @@ int main(){
     s2 = deasciify_sentence(fsm, s1);
     tmp = sentence_to_string(s2);
     if (strcmp(tmp, "karşılıklı") != 0){
-        printf("Error: %s", tmp);
+        printf("Error: %s\n", tmp);
     }
     free_sentence(s1);
     free_sentence(s2);
