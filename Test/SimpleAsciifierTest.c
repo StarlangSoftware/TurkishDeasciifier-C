@@ -4,30 +4,45 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <Memory/Memory.h>
 #include "../src/SimpleAsciifier.h"
 
 int main(){
-    if (strcmp(asciify_word("çöğüşıÇÖĞÜŞİ"), "cogusiCOGUSI") != 0){
+    char* st = asciify_word("çöğüşıÇÖĞÜŞİ");
+    if (strcmp(st, "cogusiCOGUSI") != 0){
         printf("Error in %s\n", "çöğüşıÇÖĞÜŞİ");
     }
-    if (strcmp(asciify_word("söğüş"), "sogus") != 0){
+    free_(st);
+    st = asciify_word("söğüş");
+    if (strcmp(st, "sogus") != 0){
         printf("Error in %s\n", "söğüş");
     }
-    if (strcmp(asciify_word("üçkağıtçılık"), "uckagitcilik") != 0){
+    free_(st);
+    st = asciify_word("üçkağıtçılık");
+    if (strcmp(st, "uckagitcilik") != 0){
         printf("Error in %s\n", "üçkağıtçılık");
     }
-    if (strcmp(asciify_word("akışkanlıştırıcılık"), "akiskanlistiricilik") != 0){
+    free_(st);
+    st = asciify_word("akışkanlıştırıcılık");
+    if (strcmp(st, "akiskanlistiricilik") != 0){
         printf("Error in %s\n", "akışkanlıştırıcılık");
     }
-    if (strcmp(asciify_word("çıtçıtçılık"), "citcitcilik") != 0){
+    free_(st);
+    st = asciify_word("çıtçıtçılık");
+    if (strcmp(st, "citcitcilik") != 0){
         printf("Error in %s\n", "çıtçıtçılık");
     }
-    if (strcmp(asciify_word("düşkırıklığı"), "duskirikligi") != 0){
+    free_(st);
+    st = asciify_word("düşkırıklığı");
+    if (strcmp(st, "duskirikligi") != 0){
         printf("Error in %s\n", "düşkırıklığı");
     }
-    if (strcmp(asciify_word("yüzgörümlüğü"), "yuzgorumlugu") != 0){
+    free_(st);
+    st = asciify_word("yüzgörümlüğü");
+    if (strcmp(st, "yuzgorumlugu") != 0){
         printf("Error in %s\n", "yüzgörümlüğü");
     }
+    free_(st);
     Sentence_ptr s1, s2;
     char* tmp;
     s1 = create_sentence3("çöğüş ııı ÇÖĞÜŞİ");

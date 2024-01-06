@@ -6,6 +6,7 @@
 #include <FileUtils.h>
 #include "NGramDeasciifier.h"
 #include "SimpleDeasciifier.h"
+#include "Memory/Memory.h"
 
 double max(double x, double y) {
     if (x > y) {
@@ -26,7 +27,7 @@ double max(double x, double y) {
 N_gram_deasciifier_ptr create_n_gram_deasciifier(Fsm_morphological_analyzer_ptr fsm,
                                                  N_gram_ptr n_gram,
                                                  bool root_n_gram) {
-    N_gram_deasciifier_ptr result = malloc(sizeof(N_gram_deasciifier));
+    N_gram_deasciifier_ptr result = malloc_(sizeof(N_gram_deasciifier), "create_n_gram_deasciifier");
     result->n_gram = n_gram;
     result->fsm = fsm;
     result->root_n_gram = root_n_gram;

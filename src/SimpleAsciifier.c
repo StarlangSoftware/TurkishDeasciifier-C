@@ -68,6 +68,7 @@ char *asciify_word(char* word) {
             }
         }
     }
+    free_array_list(chars, (void (*)(void *)) free_string_ptr);
     char* result = str_copy(result, modified->s);
     free_string_ptr(modified);
     return result;
