@@ -53,7 +53,7 @@ int main(){
     }
     free_sentence(s1);
     free_sentence(s2);
-    free(tmp);
+    free_(tmp);
     s1 = create_sentence3("üçkağıtçılık akışkanlıştırıcılık");
     s2 = asciify_sentence(s1);
     tmp = sentence_to_string(s2);
@@ -62,7 +62,7 @@ int main(){
     }
     free_sentence(s1);
     free_sentence(s2);
-    free(tmp);
+    free_(tmp);
     s1 = create_sentence3("çıtçıtçılık düşkırıklığı yüzgörümlüğü");
     s2 = asciify_sentence(s1);
     tmp = sentence_to_string(s2);
@@ -71,5 +71,5 @@ int main(){
     }
     free_sentence(s1);
     free_sentence(s2);
-    free(tmp);
+    free_(tmp);
 }

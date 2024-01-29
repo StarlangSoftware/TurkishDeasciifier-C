@@ -7,14 +7,17 @@
 #include <NoSmoothing.h>
 #include <string.h>
 #include <LaplaceSmoothing.h>
+#include <Memory/Memory.h>
 #include "../src/NGramDeasciifier.h"
 
 void test_sentence(N_gram_deasciifier_ptr deasciifier, char* sentence1, char* sentence2){
     Sentence_ptr s1 = create_sentence3(sentence1);
     Sentence_ptr s2 = n_gram_deasciify_sentence(deasciifier, s1);
-    if (strcmp(sentence_to_string(s2), sentence2) != 0){
-        printf("Error is sentence %s", sentence_to_string(s2));
+    char* s = sentence_to_string(s2);
+    if (strcmp(s, sentence2) != 0){
+        printf("Error is sentence %s", s);
     }
+    free_(s);
     free_sentence(s1);
     free_sentence(s2);
 }

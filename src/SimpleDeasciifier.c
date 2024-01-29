@@ -4,6 +4,7 @@
 
 #include <Dictionary/Word.h>
 #include <stdlib.h>
+#include <Memory/Memory.h>
 #include "SimpleDeasciifier.h"
 
 /**
@@ -88,6 +89,7 @@ void generate_candidate_list(Array_list_ptr candidates, const char *word, int in
                 free_string_ptr(s1);
                 free_string_ptr(s2);
                 char* added = str_copy(added, modified->s);
+                free_string_ptr(modified);
                 array_list_add(candidates, added);
             }
         }
@@ -121,7 +123,7 @@ Array_list_ptr candidate_list(Fsm_morphological_analyzer_ptr fsm, const char *wo
         }
         free_fsm_parse_list(fsmParseList);
     }
-    free_array_list(candidates, free);
+    free_array_list(candidates, free_);
     return result;
 }
 
@@ -152,7 +154,7 @@ Sentence_ptr deasciify_sentence(Fsm_morphological_analyzer_ptr fsm, Sentence_ptr
             } else {
                 new_word = str_copy(new_word, word);
             }
-            free_array_list(candidates, free);
+            free_array_list(candidates, free_);
         } else {
             new_word = str_copy(new_word, word);
         }

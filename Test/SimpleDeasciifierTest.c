@@ -4,12 +4,10 @@
 
 #include <FsmMorphologicalAnalyzer.h>
 #include <string.h>
-#include <stdlib.h>
 #include <Memory/Memory.h>
 #include "../src/SimpleDeasciifier.h"
 
 int main(){
-    start_large_memory_check();
     Fsm_morphological_analyzer_ptr fsm = create_fsm_morphological_analyzer3();
     Sentence_ptr s1, s2;
     char* tmp;
@@ -21,7 +19,7 @@ int main(){
     }
     free_sentence(s1);
     free_sentence(s2);
-    free(tmp);
+    free_(tmp);
     s1 = create_sentence3("kucuk");
     s2 = deasciify_sentence(fsm, s1);
     tmp = sentence_to_string(s2);
@@ -30,7 +28,7 @@ int main(){
     }
     free_sentence(s1);
     free_sentence(s2);
-    free(tmp);
+    free_(tmp);
     s1 = create_sentence3("karsilikli");
     s2 = deasciify_sentence(fsm, s1);
     tmp = sentence_to_string(s2);
@@ -39,7 +37,6 @@ int main(){
     }
     free_sentence(s1);
     free_sentence(s2);
-    free(tmp);
+    free_(tmp);
     free_fsm_morphological_analyzer(fsm);
-    end_memory_check();
 }

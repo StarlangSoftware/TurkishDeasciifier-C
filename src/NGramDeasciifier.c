@@ -48,68 +48,70 @@ N_gram_deasciifier_ptr create_n_gram_deasciifier(Fsm_morphological_analyzer_ptr 
  * @return Sentence result as output.
  */
 Sentence_ptr n_gram_deasciify_sentence(N_gram_deasciifier_ptr deasciifier, Sentence_ptr sentence) {
-    char* word, *bestRoot, *previousRoot = NULL, *root, *nextRoot;
-    char* bestCandidate;
-    bool isAsciifiedSame;
-    Fsm_parse_list_ptr fsmParses;
-    double previousProbability, nextProbability, bestProbability;
+    char* word, *best_root, *previous_root = NULL, *root, *next_root;
+    char* best_candidate;
+    bool is_asciified_same;
+    Fsm_parse_list_ptr fsm_parses;
+    double previous_probability, next_probability, best_probability;
     Array_list_ptr candidates = create_array_list();
     Sentence_ptr result = create_sentence();
     root = check_analysis_and_set_root(deasciifier, sentence, 0);
-    nextRoot = check_analysis_and_set_root(deasciifier, sentence, 1);
+    next_root = check_analysis_and_set_root(deasciifier, sentence, 1);
     for (int i = 0; i < sentence->words->size; i++) {
-        free_array_list(candidates, free);
+        free_array_list(candidates, free_);
         candidates = create_array_list();
-        isAsciifiedSame = false;
+        is_asciified_same = false;
         word = sentence_get_word(sentence, i);
         if (hash_map_contains(deasciifier->asciified_same, word)){
             char* tmp = str_copy(tmp, word);
             array_list_add(candidates, tmp);
             tmp = str_copy(tmp, hash_map_get(deasciifier->asciified_same, word));
             array_list_add(candidates, tmp);
-            isAsciifiedSame = true;
+            is_asciified_same = true;
         }
-        if (root == NULL || isAsciifiedSame) {
-            if (!isAsciifiedSame){
+        if (root == NULL || is_asciified_same) {
+            if (!is_asciified_same){
+                free_array_list(candidates, free_);
                 candidates = candidate_list(deasciifier->fsm, word);
             }
-            bestCandidate = word;
-            bestRoot = word;
-            bestProbability = deasciifier->threshold;
+            best_candidate = word;
+            best_root = word;
+            best_probability = deasciifier->threshold;
             for (int j = 0; j < candidates->size; j++) {
                 char* candidate = array_list_get(candidates, j);
-                fsmParses = morphological_analysis(deasciifier->fsm, candidate);
-                if (deasciifier->root_n_gram && !isAsciifiedSame){
-                    root = get_parse_with_longest_root_word(fsmParses)->root->name;
+                fsm_parses = morphological_analysis(deasciifier->fsm, candidate);
+                if (deasciifier->root_n_gram && !is_asciified_same){
+                    root = get_parse_with_longest_root_word(fsm_parses)->root->name;
                 } else {
                     root = candidate;
                 }
-                if (previousRoot != NULL) {
-                    previousProbability = get_probability(deasciifier->n_gram, 2, previousRoot, root);
+                if (previous_root != NULL) {
+                    previous_probability = get_probability(deasciifier->n_gram, 2, previous_root, root);
                 } else {
-                    previousProbability = 0.0;
+                    previous_probability = 0.0;
                 }
-                if (nextRoot != NULL) {
-                    nextProbability = get_probability(deasciifier->n_gram, 2, root, nextRoot);
+                if (next_root != NULL) {
+                    next_probability = get_probability(deasciifier->n_gram, 2, root, next_root);
                 } else {
-                    nextProbability = 0.0;
+                    next_probability = 0.0;
                 }
-                if (max(previousProbability, nextProbability) > bestProbability || candidates->size == 1) {
-                    bestCandidate = candidate;
-                    bestRoot = root;
-                    bestProbability = max(previousProbability, nextProbability);
+                if (max(previous_probability, next_probability) > best_probability || candidates->size == 1) {
+                    best_candidate = candidate;
+                    best_root = root;
+                    best_probability = max(previous_probability, next_probability);
                 }
-                free_fsm_parse_list(fsmParses);
+                free_fsm_parse_list(fsm_parses);
             }
-            root = bestRoot;
-            sentence_add_word_copy(result, bestCandidate);
+            root = best_root;
+            sentence_add_word_copy(result, best_candidate);
         } else {
             sentence_add_word_copy(result, word);
         }
-        previousRoot = root;
-        root = nextRoot;
-        nextRoot = check_analysis_and_set_root(deasciifier, sentence, i + 2);
+        previous_root = root;
+        root = next_root;
+        next_root = check_analysis_and_set_root(deasciifier, sentence, i + 2);
     }
+    free_array_list(candidates, free_);
     return result;
 }
 
@@ -124,17 +126,18 @@ char* check_analysis_and_set_root(N_gram_deasciifier_ptr deasciifier,
                                      Sentence_ptr sentence,
                                      int index) {
     if (index < sentence->words->size){
-        Fsm_parse_list_ptr fsmParses = morphological_analysis(deasciifier->fsm, sentence_get_word(sentence, index));
-        if (fsmParses->fsm_parses->size != 0){
+        Fsm_parse_list_ptr fsm_parse_list = morphological_analysis(deasciifier->fsm, sentence_get_word(sentence, index));
+        if (fsm_parse_list->fsm_parses->size != 0){
             if (deasciifier->root_n_gram){
-                char* result = get_parse_with_longest_root_word(fsmParses)->root->name;
-                free_fsm_parse_list(fsmParses);
+                char* result = get_parse_with_longest_root_word(fsm_parse_list)->root->name;
+                free_fsm_parse_list(fsm_parse_list);
                 return result;
             } else {
-                free_fsm_parse_list(fsmParses);
+                free_fsm_parse_list(fsm_parse_list);
                 return sentence_get_word(sentence, index);
             }
         }
+        free_fsm_parse_list(fsm_parse_list);
     }
     return NULL;
 }
@@ -142,5 +145,6 @@ char* check_analysis_and_set_root(N_gram_deasciifier_ptr deasciifier,
 void free_n_gram_deasciifier(N_gram_deasciifier_ptr deasciifier) {
     free_fsm_morphological_analyzer(deasciifier->fsm);
     free_n_gram(deasciifier->n_gram);
-    free(deasciifier);
+    free_hash_map2(deasciifier->asciified_same, free_, free_);
+    free_(deasciifier);
 }
