@@ -8,6 +8,10 @@
 #include "SimpleDeasciifier.h"
 #include "Memory/Memory.h"
 
+/**
+ * Finds the maximum of two numbers
+ * @return Maximum of two numbers
+ */
 double max(double x, double y) {
     if (x > y) {
         return x;
@@ -142,6 +146,11 @@ char* check_analysis_and_set_root(N_gram_deasciifier_ptr deasciifier,
     return NULL;
 }
 
+/**
+ * Frees memory allocated for N-Gram deasciifier. Deallocates the morphological analyzer, N-Gram and asciified same hash
+ * map.
+ * @param deasciifier Deasciifier object to deallocate.
+ */
 void free_n_gram_deasciifier(N_gram_deasciifier_ptr deasciifier) {
     free_fsm_morphological_analyzer(deasciifier->fsm);
     free_n_gram(deasciifier->n_gram);

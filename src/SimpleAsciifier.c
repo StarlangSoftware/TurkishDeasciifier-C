@@ -2,7 +2,6 @@
 // Created by Olcay Taner YILDIZ on 18.11.2023.
 //
 
-#include <stdlib.h>
 #include "SimpleAsciifier.h"
 
 /**
