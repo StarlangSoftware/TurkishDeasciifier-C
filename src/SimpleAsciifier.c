@@ -5,14 +5,14 @@
 #include "SimpleAsciifier.h"
 
 /**
- * The asciify method takes a Word as an input and converts it to a char {@link java.lang.reflect.Array}. Then,
- * loops i times where i ranges from 0 to length of the char {@link java.lang.reflect.Array} and substitutes Turkish
+ * The asciify method takes a Word as an input and converts it to a char array. Then,
+ * loops i times, where i ranges from 0 to length of the char array and substitutes Turkish
  * characters with their corresponding Latin versions and returns it as a new String.
  *
  * @param word Word type input to asciify.
  * @return String output which is asciified.
  */
-char *asciify_word(char* word) {
+char *asciify_word(const char* word) {
     String_ptr modified = create_string();
     Array_list_ptr chars = all_characters(word);
     for (int i = 0; i < word_size(word); i++) {
@@ -68,7 +68,8 @@ char *asciify_word(char* word) {
         }
     }
     free_array_list(chars, (void (*)(void *)) free_string_ptr);
-    char* result = str_copy(result, modified->s);
+    char* result = NULL;
+    result = str_copy(result, modified->s);
     free_string_ptr(modified);
     return result;
 }

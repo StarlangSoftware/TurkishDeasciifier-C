@@ -26,7 +26,8 @@ double max(double x, double y) {
  * then initializes nGram variable with given NGram input.
  *
  * @param fsm   FsmMorphologicalAnalyzer type input.
- * @param nGram NGram type input.
+ * @param n_gram NGram type input.
+ * @param root_n_gram If true, root ngram will be used, otherwise lemma ngram will be used.
  */
 N_gram_deasciifier_ptr create_n_gram_deasciifier(Fsm_morphological_analyzer_ptr fsm,
                                                  N_gram_ptr n_gram,
@@ -42,12 +43,13 @@ N_gram_deasciifier_ptr create_n_gram_deasciifier(Fsm_morphological_analyzer_ptr 
 
 /**
  * The deasciify method takes a Sentence as an input. First it creates a String ArrayList as candidates,
- * and a Sentence result. Then, loops i times where i ranges from 0 to words size of given sentence. It gets the
+ * and a Sentence result. Then, loops i times, where i ranges from 0 to words size of given sentence. It gets the
  * current word and generates a candidateList with this current word then, it loops through the candidateList. First it
  * calls morphologicalAnalysis method with current candidate and gets the first item as root word. If it is the first root,
- * it gets its N-gram probability, if there are also other roots, it gets probability of these roots and finds out the
+ * it gets its N-gram probability, if there are other roots, it gets probability of these roots and finds out the
  * best candidate, best root and the best probability. At the nd, it adds the bestCandidate to the bestCandidate ArrayList.
  *
+ * @param deasciifier Current deasciifier object.
  * @param sentence Sentence type input.
  * @return Sentence result as output.
  */
@@ -122,6 +124,7 @@ Sentence_ptr n_gram_deasciify_sentence(N_gram_deasciifier_ptr deasciifier, Sente
 /**
  * Checks the morphological analysis of the given word in the given index. If there is no misspelling, it returns
  * the longest root word of the possible analyses.
+ * @param deasciifier Current deasciifier object.
  * @param sentence Sentence to be analyzed.
  * @param index Index of the word
  * @return If the word is misspelled, null; otherwise the longest root word of the possible analyses.

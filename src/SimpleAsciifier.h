@@ -8,7 +8,7 @@
 #include <Dictionary/Word.h>
 #include <Sentence.h>
 
-char* asciify_word(char* word);
+char* asciify_word(const char* word);
 
 Sentence_ptr asciify_sentence(Sentence_ptr sentence);
 

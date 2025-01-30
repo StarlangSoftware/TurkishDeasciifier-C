@@ -105,13 +105,15 @@ void generate_candidate_list(Array_list_ptr candidates, const char *word, int in
  * method with ith item of candidates vector. If it does not return any analysis for given item, it removes
  * the item from candidates vector.
  *
+ * @param fsm Current morphological analyzer
  * @param word Word type input.
  * @return ArrayList candidates.
  */
 Array_list_ptr candidate_list(Fsm_morphological_analyzer_ptr fsm, const char *word) {
     Array_list_ptr candidates = create_array_list();
     Array_list_ptr result = create_array_list();
-    char* tmp = str_copy(tmp, word);
+    char* tmp = NULL;
+    tmp = str_copy(tmp, word);
     array_list_add(candidates, tmp);
     generate_candidate_list(candidates, word, 0);
     for (int i = 0; i < candidates->size; i++) {
@@ -135,11 +137,12 @@ Array_list_ptr candidate_list(Fsm_morphological_analyzer_ptr fsm, const char *wo
  * at the index of random number and assigns it as a newWord. If the size of candidates vector is 0, it then
  * directly assigns ith word as the newWord. At the end, it adds newWord to the result Sentence.
  *
+ * @param fsm Current morphological analyzer object
  * @param sentence Sentence type input.
  * @return result Sentence.
  */
 Sentence_ptr deasciify_sentence(Fsm_morphological_analyzer_ptr fsm, Sentence_ptr sentence) {
-    char* word, *new_word;
+    char* word, *new_word = NULL;
     int random_candidate;
     Array_list_ptr candidates;
     Sentence_ptr result = create_sentence();
