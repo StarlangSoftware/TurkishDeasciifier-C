@@ -8,6 +8,7 @@
 #include "../src/SimpleAsciifier.h"
 
 int main(){
+    start_memory_check();
     char* st = asciify_word("çöğüşıÇÖĞÜŞİ");
     if (strcmp(st, "cogusiCOGUSI") != 0){
         printf("Error in %s\n", "çöğüşıÇÖĞÜŞİ");
@@ -72,4 +73,5 @@ int main(){
     free_sentence(s1);
     free_sentence(s2);
     free_(tmp);
+    end_memory_check();
 }
