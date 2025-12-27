@@ -87,7 +87,7 @@ Sentence_ptr n_gram_deasciify_sentence(N_gram_deasciifier_ptr deasciifier, Sente
                 char* candidate = array_list_get(candidates, j);
                 fsm_parses = morphological_analysis(deasciifier->fsm, candidate);
                 if (deasciifier->root_n_gram && !is_asciified_same){
-                    root = get_parse_with_longest_root_word(fsm_parses)->root->name;
+                    root = get_parse_with_longest_root_word(fsm_parses)->parse.root->name;
                 } else {
                     root = candidate;
                 }
@@ -136,7 +136,7 @@ char* check_analysis_and_set_root(N_gram_deasciifier_ptr deasciifier,
         Fsm_parse_list_ptr fsm_parse_list = morphological_analysis(deasciifier->fsm, sentence_get_word(sentence, index));
         if (fsm_parse_list->fsm_parses->size != 0){
             if (deasciifier->root_n_gram){
-                char* result = get_parse_with_longest_root_word(fsm_parse_list)->root->name;
+                char* result = get_parse_with_longest_root_word(fsm_parse_list)->parse.root->name;
                 free_fsm_parse_list(fsm_parse_list);
                 return result;
             } else {

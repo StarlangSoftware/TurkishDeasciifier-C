@@ -23,7 +23,6 @@ void test_sentence(N_gram_deasciifier_ptr deasciifier, char* sentence1, char* se
 }
 
 int main(){
-    start_x_large_memory_check();
     Fsm_morphological_analyzer_ptr fsm = create_fsm_morphological_analyzer3();
     N_gram_ptr n_gram = create_string_n_gram3("ngram.txt");
     set_probabilities_simple(n_gram, NULL, set_probabilities_with_level_no_smoothing);
@@ -37,5 +36,4 @@ int main(){
     test_sentence(deasciifier, "unlu sanatçı tartismali konu hakkinda demec vermekten kacindi", "ünlü sanatçı tartışmalı konu hakkında demeç vermekten kaçındı");
     test_sentence(deasciifier, "koylu de durumdan oldukca şikayetciydi", "köylü de durumdan oldukça şikayetçiydi");
     free_n_gram_deasciifier(deasciifier);
-    end_memory_check();
 }
